@@ -2,14 +2,6 @@
 # job-seeker-api
 This project is a Ruby-on-Rails API to track job search information.
 
-## Installation
-
-1.  In order to make requests to your deployed API, you will need to set
-    `SECRET_KEY_BASE` in the environment of the production API (using `heroku
-    config:set` or the Heroku dashboard).
-1.  In order to make requests from your deployed client application, you will
-    need to set `CLIENT_ORIGIN` in the environment of the production API (e.g.
-    `heroku config:set CLIENT_ORIGIN https://<github-username>.github.io`).
 
 ## Structure
 
