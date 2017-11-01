@@ -1,9 +1,11 @@
-class JobsController < ApplicationController
+# frozen_string_literal: true
+
+class JobsController < ProtectedController
   before_action :set_job, only: [:show, :update, :destroy]
 
   # GET /jobs
   def index
-    @jobs = Job.all
+    @jobs = current_user.jobs.all
 
     render json: @jobs
   end
@@ -15,7 +17,7 @@ class JobsController < ApplicationController
 
   # POST /jobs
   def create
-    @job = Job.new(job_params)
+    @job = current_user.jobs.build(job_params)
 
     if @job.save
       render json: @job, status: :created, location: @job
@@ -36,16 +38,19 @@ class JobsController < ApplicationController
   # DELETE /jobs/1
   def destroy
     @job.destroy
+
+    head :no_content
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_job
-      @job = Job.find(params[:id])
-    end
 
-    # Only allow a trusted parameter "white list" through.
-    def job_params
-      params.require(:job).permit(:company, :title, :url, :date_applied, :status, :recruiter_name, :recruiter_email, :recruiter_phone, :notes)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_job
+    @job = current_user.jobs.find(params[:id])
+  end
+
+  # Only allow a trusted parameter "white list" through.
+  def job_params
+    params.require(:job).permit(:id, :company, :title, :url, :date_applied, :status, :recruiter_name, :recruiter_email, :recruiter_phone, :notes)
+  end
 end

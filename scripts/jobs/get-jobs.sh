@@ -3,11 +3,10 @@
 TOKEN=BAhJIiVjYWJhMGYxZWUwZjA5MTMwZDFiOTlkNWUxNjY2MjZiOAY6BkVG--b8b92d09260f75fbb0814165afb632eb79b70086
 
 API="${API_ORIGIN:-http://localhost:4741}"
-URL_PATH="/sign-out"
-curl "${API}${URL_PATH}/${ID}" \
+URL_PATH="/jobs"
+curl "${API}${URL_PATH}" \
   --include \
-  --request DELETE \
-  --header "Content-Type: application/json" \
+  --request GET \
   --header "Authorization: Token token=$TOKEN"
 
 echo
