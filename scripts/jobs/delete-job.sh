@@ -1,9 +1,9 @@
 #!/bin/bash
 
-TOKEN=BAhJIiVjYWJhMGYxZWUwZjA5MTMwZDFiOTlkNWUxNjY2MjZiOAY6BkVG--b8b92d09260f75fbb0814165afb632eb79b70086
+TOKEN=BAhJIiVmNmUzMmM5ZDU1ZTAxZTRjM2M4MTZmYTkxNDgwODMwZgY6BkVG--fce8ddddf1a5fca24eaccaf6346e2652f7b36895
 
 API="${API_ORIGIN:-http://localhost:4741}"
-URL_PATH="/sign-out"
+URL_PATH="/jobs"
 curl "${API}${URL_PATH}/${ID}" \
   --include \
   --request DELETE \
