@@ -1,7 +1,41 @@
 
 # job-seeker-api
-This project is a Ruby-on-Rails API to track job search information.
+This project is a Ruby-on-Rails API to track job search information. Users can
+create, delete, update, show and list the jobs that they created.
 
+[Click Here for demo](https://sjacobs146.github.io/job-seeker/)
+
+API URL:  https://job-seeker-api.herokuapp.com
+
+# Technologies Used
+- Ruby
+- Rails
+- PostgreSQL
+
+# My Planning process
+Please see the front-end component of this project for more information about
+my planning process, etc.: https://github.com/sjacobs146/job-seeker
+
+# Entity Relationship Diagram
+
+![Job Seeker ERD](/JobSeekerERD.png)
+
+# My development process and problem-solving strategy
+I began this full-stack project by implementing the back-end first.  I started
+with the simplest relationship: users have many jobs.  I created the jobs
+resource first. I used the Rails scaffold command to generate the database
+migration script, model and controller.  Once I was able to create records in
+the Jobs table, I added the relationship to users.  I updated the jobs
+controller to extend ProtectedController so that users could only see and update
+their own jobs.  I used shell scripts to run curl commands to test each of
+my endpoints.  The api code is pretty simple, so I didn't run into anything complicated.
+
+In the future I'd like to add an interviews resource so that a job has many
+interviews (hopefully).
+
+## A Message for my colleagues
+
+![Obligatory Cat Photo](/CatResume.jpg)
 
 ## API
 
