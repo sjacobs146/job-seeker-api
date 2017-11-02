@@ -3,38 +3,232 @@
 This project is a Ruby-on-Rails API to track job search information.
 
 
-## Structure
-
-This template follows the standard project structure in Rails 4.
-
-`curl` command scripts are stored in [`scripts`](scripts) with names that
-correspond to API actions.
-
-User authentication is built-in.
-
-## Tasks
-
-Developers should run these often!
-
--   `bin/rake routes` lists the endpoints available in your API.
--   `bin/rake test` runs automated tests.
--   `bin/rails console` opens a REPL that pre-loads the API.
--   `bin/rails db` opens your database client and loads the correct database.
--   `bin/rails server` starts the API.
--   `scripts/*.sh` run various `curl` commands to test the API. See below.
-
-<!-- TODO -   `rake nag` checks your code style. -->
-<!-- TODO -   `rake lint` checks your code for syntax errors. -->
-
 ## API
 
-Use this as the basis for your own API documentation. Add a new third-level
-heading for your custom entities, and follow the pattern provided for the
-built-in user authentication documentation.
+### Jobs
 
-Scripts are included in [`scripts`](scripts) to test built-in actions. Add your
-own scripts to test your custom API. As an alternative, you can write automated
-tests in RSpec to test your API.
+| Verb   | URI Pattern | Controller#Action |
+|--------|-------------|-------------------|
+| GET    | `/jobs`     | `jobs#index`      |
+| POST   | `/jobs`     | `jobs#create`     |
+| GET    | `/jobs/:id` | `jobs#show`       |
+| PATCH  | `/jobs/:id` | `jobs#update`     |
+| DELETE | `/jobs/:id` | `jobs#destroy`    |
+
+#### GET /jobs
+
+Request:
+
+```sh
+API="${API_ORIGIN:-http://localhost:4741}"
+URL_PATH="/jobs"
+curl "${API}${URL_PATH}" \
+  --include \
+  --request GET \
+  --header "Authorization: Token token=$TOKEN"
+```
+
+```sh
+TOKEN=BAhJIiVlZDIwZTMzMzQzODg5NTBmYjZlNjRlZDZlNzYxYzU2ZAY6BkVG--7e7f77f974edcf5e4887b56918f34cd9fe293b9f sh scripts/jobs/get-jobs.sh
+```
+
+Response:
+
+```md
+HTTP/1.1 200 OK
+Content-Type: application/json; charset=utf-8
+
+{
+	"jobs": [{
+		"id": 4,
+		"company": "CloudHealth",
+		"title": "Full-stack Developer",
+		"url": "https://jobs.lever.co/cloudhealthtech/d00de32f-1d08-438d-b6d8-dc8de89cd753",
+		"date_applied": null,
+		"status": null,
+		"recruiter_name": null,
+		"recruiter_email": null,
+		"recruiter_phone": null,
+		"notes": null
+	}, {
+		"id": 3,
+		"company": "Appcues",
+		"title": "Full-stack Engineer",
+		"url": "https://appcues.breezy.hr/p/6b9ca5952dd4-full-stack-engineer",
+		"date_applied": null,
+		"status": null,
+		"recruiter_name": null,
+		"recruiter_email": null,
+		"recruiter_phone": null,
+		"notes": null
+	}, {
+		"id": 2,
+		"company": "Toast",
+		"title": "Lead Software Engineer",
+		"url": "https://pos.toasttab.com/careers/job-listings?gh_jid=220306",
+		"date_applied": null,
+		"status": null,
+		"recruiter_name": null,
+		"recruiter_email": null,
+		"recruiter_phone": null,
+		"notes": null
+	}]
+```
+
+#### GET /jobs/:id
+
+Request:
+
+```sh
+API="${API_ORIGIN:-http://localhost:4741}"
+URL_PATH="/jobs"
+curl "${API}${URL_PATH}/$ID" \
+  --include \
+  --request GET \
+  --header "Authorization: Token token=$TOKEN"
+```
+
+```sh
+ID=2 TOKEN=BAhJIiVlZDIwZTMzMzQzODg5NTBmYjZlNjRlZDZlNzYxYzU2ZAY6BkVG--7e7f77f974edcf5e4887b56918f34cd9fe293b9f scripts/jobs/job.sh
+```
+
+Response:
+
+```md
+HTTP/1.1 200 OK
+Content-Type: application/json; charset=utf-8
+
+{
+	"job": {
+		"id": 2,
+		"company": "Toast",
+		"title": "Lead Software Engineer",
+		"url": "https://pos.toasttab.com/careers/job-listings?gh_jid=220306",
+		"date_applied": null,
+		"status": null,
+		"recruiter_name": null,
+		"recruiter_email": null,
+		"recruiter_phone": null,
+		"notes": null
+	}
+}
+```
+#### POST /jobs
+
+Request:
+
+```sh
+API="${API_ORIGIN:-http://localhost:4741}"
+URL_PATH="/jobs"
+curl "${API}${URL_PATH}" \
+  --include \
+  --request POST \
+  --header "Content-Type: application/json" \
+  --header "Authorization: Token token=$TOKEN" \
+  --data '{
+    "job": {
+      "company": "'"${COMPANY}"'",
+      "title": "'"${TITLE}"'",
+      "url": "'"${URL}"'"
+    }
+  }'
+```
+
+```sh
+ TOKEN=BAhJIiVlZDIwZTMzMzQzODg5NTBmYjZlNjRlZDZlNzYxYzU2ZAY6BkVG--7e7f77f974edcf5e4887b56918f34cd9fe293b9f COMPANY=Appcues TITLE="Full-stack Engineer" URL=https://appcues.breezy.hr/p/6b9ca5952dd4-full-stack-engineer sh scripts/jobs/create-job.sh
+```
+
+Response:
+
+```md
+HTTP/1.1 201 Created
+Content-Type: application/json; charset=utf-8
+
+{
+	"job": {
+		"id": 3,
+		"company": "Appcues",
+		"title": "Full-stack Engineer",
+		"url": "https://appcues.breezy.hr/p/6b9ca5952dd4-full-stack-engineer",
+		"date_applied": null,
+		"status": null,
+		"recruiter_name": null,
+		"recruiter_email": null,
+		"recruiter_phone": null,
+		"notes": null
+	}
+}
+```
+
+#### PATCH /jobs/:id
+
+Request:
+
+```sh
+API="${API_ORIGIN:-http://localhost:4741}"
+URL_PATH="/jobs"
+curl "${API}${URL_PATH}/${ID}" \
+  --include \
+  --request PATCH \
+  --header "Authorization: Token token=${TOKEN}" \
+  --header "Content-Type: application/json" \
+  --data '{
+    "job": {
+      "status": "'"${STATUS}"'",
+      "date_applied": "'"${DATE}"'",
+      "recruiter_name": "'"${NAME}"'"
+    }
+  }'
+```
+
+```sh
+ TOKEN=BAhJIiVlZDIwZTMzMzQzODg5NTBmYjZlNjRlZDZlNzYxYzU2ZAY6BkVG--7e7f77f974edcf5e4887b56918f34cd9fe293b9f ID=3 STATUS=applied DATE=2017-11-01 NAME="Larry McDonald" sh scripts/jobs/update-job.sh
+```
+
+Response:
+
+```md
+HTTP/1.1 200 OK
+Content-Type: application/json; charset=utf-8
+
+{
+	"job": {
+		"id": 3,
+		"company": "Appcues",
+		"title": "Full-stack Engineer",
+		"url": "https://appcues.breezy.hr/p/6b9ca5952dd4-full-stack-engineer",
+		"date_applied": "2017-11-01",
+		"status": "applied",
+		"recruiter_name": "Larry McDonald",
+		"recruiter_email": null,
+		"recruiter_phone": null,
+		"notes": null
+	}
+}
+```
+#### DELETE /jobs/:id
+
+Request:
+
+```sh
+API="${API_ORIGIN:-http://localhost:4741}"
+URL_PATH="/jobs"
+curl "${API}${URL_PATH}/${ID}" \
+  --include \
+  --request DELETE \
+  --header "Content-Type: application/json" \
+  --header "Authorization: Token token=$TOKEN"
+```
+
+```sh
+ID=1 TOKEN=BAhJIiVlZDIwZTMzMzQzODg5NTBmYjZlNjRlZDZlNzYxYzU2ZAY6BkVG--7e7f77f974edcf5e4887b56918f34cd9fe293b9f scripts/jobs/delete-job.sh
+```
+
+Response:
+
+```md
+HTTP/1.1 204 No Content
+```
 
 ### Authentication
 
@@ -232,27 +426,3 @@ Content-Type: application/json; charset=utf-8
   }
 }
 ```
-
-### Reset Database without dropping
-
-This is not a task developers should run often, but it is sometimes necessary.
-
-**locally**
-
-```sh
-bin/rake db:migrate VERSION=0
-bin/rake db:migrate db:seed db:examples
-```
-
-**heroku**
-
-```sh
-heroku run rake db:migrate VERSION=0
-heroku run rake db:migrate db:seed db:examples
-```
-
-## [License](LICENSE)
-
-1.  All content is licensed under a CC­BY­NC­SA 4.0 license.
-1.  All software code is licensed under GNU GPLv3. For commercial use or
-    alternative licensing, please contact legal@ga.co.
