@@ -7,6 +7,8 @@ create, delete, update, show and list the jobs that they created.
 
 API URL:  https://job-seeker-api.herokuapp.com
 
+GitHub repo for client-side code: https://github.com/sjacobs146/job-seeker
+
 # Technologies Used
 - Ruby
 - Rails
